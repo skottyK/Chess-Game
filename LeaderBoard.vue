@@ -17,7 +17,7 @@
         <tbody>
           <!-- This is the data that will be displayed in the leaderboard -->
           <!-- Loop through to display each data for evrey player -->
-          <tr v-for="(entry, index) in leaderboardData" :key="entry.player">
+          <tr v-for="(entry, index) in leaderboardData1" :key="entry.player">
             <td>{{ index + 1 }}</td>
             <td>{{ entry.player }}</td>
             <td>{{ entry.wins }}</td>
@@ -40,12 +40,34 @@ export default {
   data () {
     return {
       // This data would typically come from an API call
-      // TODO: implement this from database
-      leaderboardData: [
+      // api data to implement
+      leaderboredData: [], // this is the data that will be displayed in the leaderboard from the api
+      isLoading: false, // this is to check if the data is loading
+      error: null, // this is to check if there is an error
+      // This is temporary, so I can get my vision across of how I want it to look
+      leaderboardData1: [
         { player: 'Player1', wins: 20, losses: 5, draws: 3 },
         { player: 'Player2', wins: 18, losses: 7, draws: 1 }
         // ... more players
       ]
+    }
+  },
+  // This is to fetch the data from the api
+  created () {
+    this.fetchLeaderboardData()
+  },
+  // this is where the methods are stored
+  methods: {
+    fetchLeaderboardData () {
+      this.isLoading = true
+      try {
+        // const response = await axios.get('/api/leaderboard');
+        // this.leaderboardData = response.data
+      } catch (error) {
+        this.error = error.message || 'Failed to fetch leaderboard data'
+      } finally {
+        this.isLoading = false
+      }
     }
   }
 }
