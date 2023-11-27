@@ -35,24 +35,55 @@
   * containing options to change the settings of the chess game.
   * @component
 */
+import axios from 'axios';
+
 export default {
   name: 'GameSettings',
-  // Default data for the settings page.
   data () {
+    // this is the default settings for the chess game
     return {
-      // Default settings for the chess game.
       settings: {
         playerSettings: 'multiplayer',
         timer: 15,
         difficulty: 'medium'
-      }
+      },
+      loading: false,
+      error: null
     }
   },
+  // this is to fetch the data from the api
+  mounted() {
+    this.loading = true;
+    axios.get('http://localhost:8080/api/settings') // Replace with your API endpoint
+      // get settings response from the api
+      .then(response => {
+        this.settings = response.data;
+      })
+      // if there is an error, display the error
+      .catch(error => {
+        this.error = error;
+        console.error("Error fetching settings:", error);
+      })
+      // once the data is loaded, set loading to false
+      .finally(() => {
+        this.loading = false;
+      });
+  },
   methods: {
-    // Updates the settings based on user selection.
-    updateSettings () {
-      // Emit an event with the updated settings for parent components.
-      this.$emit('update-settings', this.settings)
+    // method to 
+    updateSettings() {
+      this.loading = true;
+      axios.post('http://localhost:8080/api/settings', this.settings) // Replace with your API endpoint
+        .then(() => {
+          alert('Settings updated successfully!');
+        })
+        .catch(error => {
+          this.error = error;
+          console.error("Error updating settings:", error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   }
 }

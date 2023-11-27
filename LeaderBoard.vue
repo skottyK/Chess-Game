@@ -35,6 +35,8 @@
   * containing options to view the leaderboard and its corresponding data for each player.
   * @component
 */
+import axios from 'axios';
+
 export default {
   name: 'LeaderBoard',
   data () {
@@ -58,15 +60,15 @@ export default {
   },
   // this is where the methods are stored
   methods: {
-    fetchLeaderboardData () {
-      this.isLoading = true
+    async fetchLeaderboardData () {
+      this.isLoading = true;
       try {
-        // const response = await axios.get('/api/leaderboard');
-        // this.leaderboardData = response.data
+        const response = await axios.get('/api/leaderboard'); // Replace '/api/leaderboard' with your actual API endpoint
+        this.leaderboardData = response.data;
       } catch (error) {
-        this.error = error.message || 'Failed to fetch leaderboard data'
+        this.error = error.message || 'Failed to fetch leaderboard data';
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     }
   }
