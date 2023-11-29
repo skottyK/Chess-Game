@@ -32,7 +32,9 @@ describe('LandingPage.vue', () => {
 
   // Test to check if navigation to LeaderBoard works
   it('navigates to LeaderBoard on button click', async () => {
+    // spy on the `navigateTo` method of the component
     const spy = jest.spyOn(wrapper.vm, 'navigateTo');
+    
     await wrapper.find('.nav-link-LeaderBoard').trigger('click');
     expect(spy).toHaveBeenCalledWith('/LeaderBoard');
   });
